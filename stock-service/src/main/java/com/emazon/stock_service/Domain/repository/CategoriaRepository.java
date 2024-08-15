@@ -1,9 +1,8 @@
-package com.emazon.stock_service.Domain.api;
+package com.emazon.stock_service.Domain.repository;
 
 import com.emazon.stock_service.Domain.model.Categoria;
 
-public interface CategoriaService {
+public interface CategoriaRepository {
 
     void saveCategoria(Categoria categoria);
-
 }

@@ -14,6 +14,9 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Articulo {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long cantidad;
     private Long precio;
