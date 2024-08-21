@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class BeanConfiguration {
+
     private final ICategoriaRepository categoriaRepository;
     private final CategoriaEntityMapper categoriaEntityMapper;
 

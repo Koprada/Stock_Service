@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/categoria")
 @RequiredArgsConstructor
 public class CategoriaRestController {
+
     private final CategoryHandler categoryHandler;
 
     @PostMapping("/")
     public ResponseEntity<Void> saveCategory(@RequestBody CategoriaDtoRequest categoriaDtoRequest) {
         categoryHandler.saveCategory(categoriaDtoRequest);
-        System.out.println(categoriaDtoRequest);
         return ResponseEntity.ok().build();
 
     }

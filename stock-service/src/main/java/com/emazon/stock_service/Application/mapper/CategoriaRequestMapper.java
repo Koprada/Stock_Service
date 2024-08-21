@@ -12,4 +12,5 @@ import org.mapstruct.ReportingPolicy;
 public interface CategoriaRequestMapper {
 
     Categoria toCategoria(CategoriaDtoRequest categoriaRequest);
+
 }

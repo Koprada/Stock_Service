@@ -13,6 +13,18 @@ public class CategoriaUseCase implements ICategoriaService {
     }
 
     public void saveCategoria(Categoria categoria) {
+        if (categoria.getNombre() == null || categoria.getNombre().isEmpty()) {
+            throw new IllegalArgumentException("El nombre de la categoría no puede estar vacío");
+        }
+        if (categoria.getNombre().length() > 50) {
+            throw new IllegalArgumentException("El nombre de la categoría no puede exceder los 50 caracteres");
+        }
+        if (categoria.getDescripcion() == null || categoria.getDescripcion().isEmpty()) {
+            throw new IllegalArgumentException("La descripción de la categoría no puede estar vacía");
+        }
+        if (categoria.getDescripcion().length() > 90) {
+            throw new IllegalArgumentException("La descripción de la categoría no puede exceder los 90 caracteres");
+        }
         categoriaPersistencePort.saveCategoria(categoria);
     }
 }

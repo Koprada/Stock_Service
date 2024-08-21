@@ -10,11 +10,13 @@ import lombok.RequiredArgsConstructor;
 public class CategoriaJpaAdapter implements CategoriaPersistencePort {
 
     private final ICategoriaRepository categoriaRepository;
-
     private final CategoriaEntityMapper categoriaEntityMapper;
 
     @Override
     public void saveCategoria(Categoria categoria) {
+        if (categoriaRepository.existsByNombre(categoria.getNombre())) {
+            throw new IllegalArgumentException("El nombre de la categoría ya existe");
+        }
         categoriaRepository.save(categoriaEntityMapper.categoriaToCategoriaEntity(categoria));
     }
 }
