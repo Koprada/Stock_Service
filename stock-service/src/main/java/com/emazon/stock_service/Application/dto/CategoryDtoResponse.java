@@ -3,8 +3,9 @@ package com.emazon.stock_service.Application.dto;
 import lombok.Data;
 
 @Data
-public class CategoriaDtoRequest {
+public class CategoryDtoResponse {
 
+    private Long id;
     private String nombre;
     private String descripcion;
 

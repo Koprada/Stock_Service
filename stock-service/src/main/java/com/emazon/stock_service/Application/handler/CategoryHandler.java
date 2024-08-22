@@ -1,23 +1,28 @@
 package com.emazon.stock_service.Application.handler;
-import com.emazon.stock_service.Application.dto.CategoriaDtoRequest;
-import com.emazon.stock_service.Application.mapper.CategoriaRequestMapper;
-import com.emazon.stock_service.Domain.api.ICategoriaService;
-import com.emazon.stock_service.Domain.model.Categoria;
-import jakarta.transaction.Transactional;
+import com.emazon.stock_service.Application.dto.CategoryDtoRequest;
+import com.emazon.stock_service.Application.mapper.CategoryRequestMapper;
+import com.emazon.stock_service.Domain.api.ICategoryService;
+import com.emazon.stock_service.Domain.model.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor
 public class CategoryHandler implements ICategoryHandler {
 
-    private final ICategoriaService categoriaService;
-    private final CategoriaRequestMapper categoriaRequestMapper;
+    private final ICategoryService categoryService;
+    private final CategoryRequestMapper categoryRequestMapper;
 
     @Override
-    public void saveCategory(CategoriaDtoRequest categoriaDtoRequest) {
-        Categoria categoria = categoriaRequestMapper.toCategoria(categoriaDtoRequest);
-        categoriaService.saveCategoria(categoria);
+    public void saveCategory(CategoryDtoRequest categoryDtoRequest) {
+        Category category = categoryRequestMapper.toCategory(categoryDtoRequest);
+        categoryService.saveCategory(category);
+    }
+
+    public List<Category> listCategories() {
+        return categoryService.listCategories();
     }
 }

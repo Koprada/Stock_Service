@@ -1,16 +1,13 @@
 package com.emazon.stock_service.Domain.model;
 
-import java.util.List;
 
-
-
-public class Categoria {
+public class Category {
 
     private Long id;
     private String nombre;
     private String descripcion;
 
-    public Categoria(Long id, String nombre, String descripcion) {
+    public Category(Long id, String nombre, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
