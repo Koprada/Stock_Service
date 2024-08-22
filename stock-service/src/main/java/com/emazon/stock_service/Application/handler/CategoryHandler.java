@@ -1,5 +1,6 @@
 package com.emazon.stock_service.Application.handler;
 import com.emazon.stock_service.Application.dto.CategoryDtoRequest;
+import com.emazon.stock_service.Application.dto.CategoryDtoResponse;
 import com.emazon.stock_service.Application.mapper.CategoryRequestMapper;
 import com.emazon.stock_service.Domain.api.ICategoryService;
 import com.emazon.stock_service.Domain.model.Category;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -22,7 +24,11 @@ public class CategoryHandler implements ICategoryHandler {
         categoryService.saveCategory(category);
     }
 
-    public List<Category> listCategories() {
-        return categoryService.listCategories();
+    @Override
+    public List<CategoryDtoResponse> listCategories() {
+        List<Category> categories = categoryService.listCategories();
+        return categories.stream()
+                .map(categoryRequestMapper::toCategoryDtoResponse)
+                .collect(Collectors.toList());
     }
 }

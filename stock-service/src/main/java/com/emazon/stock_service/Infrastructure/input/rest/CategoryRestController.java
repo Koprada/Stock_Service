@@ -1,8 +1,8 @@
 package com.emazon.stock_service.Infrastructure.input.rest;
 
 import com.emazon.stock_service.Application.dto.CategoryDtoRequest;
+import com.emazon.stock_service.Application.dto.CategoryDtoResponse;
 import com.emazon.stock_service.Application.handler.CategoryHandler;
-import com.emazon.stock_service.Domain.model.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +24,8 @@ public class CategoryRestController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Category>> listCategories() {
-        List<Category> categories = categoryHandler.listCategories();
+    public ResponseEntity<List<CategoryDtoResponse>> listCategories() {
+        List<CategoryDtoResponse> categories = categoryHandler.listCategories();
         return ResponseEntity.ok(categories);
     }
 }

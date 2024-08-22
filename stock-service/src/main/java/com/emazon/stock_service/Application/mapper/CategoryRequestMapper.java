@@ -2,6 +2,7 @@ package com.emazon.stock_service.Application.mapper;
 
 
 import com.emazon.stock_service.Application.dto.CategoryDtoRequest;
+import com.emazon.stock_service.Application.dto.CategoryDtoResponse;
 import com.emazon.stock_service.Domain.model.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -12,5 +13,7 @@ import org.mapstruct.ReportingPolicy;
 public interface CategoryRequestMapper {
 
     Category toCategory(CategoryDtoRequest categoryDtoRequest);
+
+    CategoryDtoResponse toCategoryDtoResponse(Category category);
 
 }
