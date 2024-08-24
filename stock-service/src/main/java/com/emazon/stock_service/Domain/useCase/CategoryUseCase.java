@@ -3,6 +3,8 @@ package com.emazon.stock_service.Domain.useCase;
 import com.emazon.stock_service.Domain.api.ICategoryService;
 import com.emazon.stock_service.Domain.model.Category;
 import com.emazon.stock_service.Domain.spi.CategoryPersistencePort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -32,8 +34,8 @@ public class CategoryUseCase implements ICategoryService {
     }
 
     @Override
-    public List<Category> listCategories() {
-        return categoryPersistencePort.listCategories();
+    public Page<Category> listCategories(Pageable pageable) {
+        return categoryPersistencePort.listCategories(pageable);
     }
 
 }
