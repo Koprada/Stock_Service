@@ -31,29 +31,29 @@ public class CategoryHandler implements ICategoryHandler {
 
     @Override
     public Pagination<CategoryDtoResponse> listCategories(String sortOrder, int page, int size) {
+        // Crear PageRequest una sola vez
+        Pageable pageable = PageRequest.of(page, size,
+                "desc".equalsIgnoreCase(sortOrder) ? Sort.by(Sort.Direction.DESC, Constants.CATEGORY_NAME_FIELD) : Sort.by(Sort.Direction.ASC, Constants.CATEGORY_NAME_FIELD));
+
+        // Llamar a categoryService.listCategories solo una vez
+        Page<Category> categoriesPage = categoryService.listCategories(pageable);
+
+        // Convertir los datos y construir Pagination
+        List<CategoryDtoResponse> categoryDtoResponses = categoriesPage.stream()
+                .map(categoryRequestMapper::toCategoryDtoResponse)
+                .toList();
+
         return new Pagination<>(
-                categoryService.listCategories(
-                                PageRequest.of(page, size,
-                                        "desc".equalsIgnoreCase(sortOrder) ? Sort.by(Sort.Direction.DESC, Constants.CATEGORY_NAME_FIELD) : Sort.by(Sort.Direction.ASC, Constants.CATEGORY_NAME_FIELD))
-                        ).stream()
-                        .map(categoryRequestMapper::toCategoryDtoResponse)
-                        .toList(),
+                categoryDtoResponses,
                 page,
                 size,
-                categoryService.listCategories(
-                        PageRequest.of(page, size,
-                                "desc".equalsIgnoreCase(sortOrder) ? Sort.by(Sort.Direction.DESC, Constants.CATEGORY_NAME_FIELD) : Sort.by(Sort.Direction.ASC, Constants.CATEGORY_NAME_FIELD))
-                ).getTotalElements(),
-                categoryService.listCategories(
-                        PageRequest.of(page, size,
-                                "desc".equalsIgnoreCase(sortOrder) ? Sort.by(Sort.Direction.DESC, Constants.CATEGORY_NAME_FIELD) : Sort.by(Sort.Direction.ASC, Constants.CATEGORY_NAME_FIELD))
-                ).getTotalPages(),
-                !categoryService.listCategories(
-                        PageRequest.of(page, size,
-                                "desc".equalsIgnoreCase(sortOrder) ? Sort.by(Sort.Direction.DESC, Constants.CATEGORY_NAME_FIELD) : Sort.by(Sort.Direction.ASC, Constants.CATEGORY_NAME_FIELD))
-                ).hasNext()
+                categoriesPage.getTotalElements(),
+                categoriesPage.getTotalPages(),
+                !categoriesPage.hasNext()
         );
     }
+
+
 
     @Override
     public Page<CategoryDtoResponse> listCategories(Pageable pageable) {
