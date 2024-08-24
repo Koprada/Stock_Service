@@ -5,6 +5,8 @@ import com.emazon.stock_service.Domain.spi.CategoryPersistencePort;
 import com.emazon.stock_service.Infrastructure.output.jpa.mapper.CategoryEntityMapper;
 import com.emazon.stock_service.Infrastructure.output.jpa.repository.ICategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,9 +26,9 @@ public class CategoryJpaAdapter implements CategoryPersistencePort {
     }
 
     @Override
-    public List<Category> listCategories() {
-        return categoryRepository.findAll().stream()
-                .map(categoryEntityMapper::toCategory)
-                .collect(Collectors.toList());
+    public Page<Category> listCategories(Pageable pageable) {
+        return categoryRepository.findAll(pageable)
+                .map(categoryEntityMapper::toCategory);
     }
+
 }
