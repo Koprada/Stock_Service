@@ -10,4 +10,6 @@ public interface CategoryPersistencePort {
     void saveCategory(Category category);
 
     Page<Category> listCategories(Pageable pageable);
+
+    boolean existsByNombre(String nombre);
 }
