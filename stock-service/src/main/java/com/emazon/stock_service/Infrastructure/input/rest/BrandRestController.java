@@ -1,35 +1,34 @@
 package com.emazon.stock_service.Infrastructure.input.rest;
 
-import com.emazon.stock_service.Application.dto.CategoryDtoRequest;
+import com.emazon.stock_service.Application.dto.BrandDtoRequest;
+import com.emazon.stock_service.Application.dto.BrandDtoResponse;
 import com.emazon.stock_service.Application.dto.CategoryDtoResponse;
-import com.emazon.stock_service.Application.handler.CategoryHandler;
+import com.emazon.stock_service.Application.handler.BrandHandler;
 import com.emazon.stock_service.Domain.model.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/marca")
 @RequiredArgsConstructor
-public class CategoryRestController {
+public class BrandRestController {
 
-    private final CategoryHandler categoryHandler;
+    private final BrandHandler brandHandler;
 
     @PostMapping("/")
-    public ResponseEntity<Void> saveCategory(@RequestBody CategoryDtoRequest categoryDtoRequest) {
-        categoryHandler.saveCategory(categoryDtoRequest);
+    public ResponseEntity<Void> saveBrand(@RequestBody BrandDtoRequest brandDtoRequest) {
+        brandHandler.saveBrand(brandDtoRequest);
         return ResponseEntity.ok().build();
-
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Pagination<CategoryDtoResponse>> listCategories(
+    public ResponseEntity<Pagination<BrandDtoResponse>> listBrands(
             @RequestParam(defaultValue = "asc") String sortOrder,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        Pagination<CategoryDtoResponse> pagination = categoryHandler.listCategories(sortOrder, page, size);
+        Pagination<BrandDtoResponse> pagination = brandHandler.listBrands(sortOrder, page, size);
         return ResponseEntity.ok(pagination);
     }
 

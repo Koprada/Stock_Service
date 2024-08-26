@@ -1,7 +1,7 @@
 package com.emazon.stock_service.Domain.useCase;
 
 import com.emazon.stock_service.Domain.api.ICategoryService;
-import com.emazon.stock_service.Domain.constant.ExceptionConstants;
+import com.emazon.stock_service.Domain.Constants.ExceptionConstants;
 import com.emazon.stock_service.Domain.exception.CategoryNotFoundException;
 import com.emazon.stock_service.Domain.exception.CategoryAlreadyExistsException;
 import com.emazon.stock_service.Domain.exception.InvalidCategoryException;
