@@ -1,6 +1,6 @@
-package com.emazon.stock_service.Application.handler;
-import com.emazon.stock_service.Application.dto.CategoryDtoRequest;
-import com.emazon.stock_service.Application.dto.CategoryDtoResponse;
+package com.emazon.stock_service.Application.handler.categoryHandler;
+import com.emazon.stock_service.Application.dto.categoryDto.CategoryDtoRequest;
+import com.emazon.stock_service.Application.dto.categoryDto.CategoryDtoResponse;
 import com.emazon.stock_service.Application.mapper.CategoryRequestMapper;
 import com.emazon.stock_service.Domain.Constants.Constants;
 import com.emazon.stock_service.Domain.api.ICategoryService;

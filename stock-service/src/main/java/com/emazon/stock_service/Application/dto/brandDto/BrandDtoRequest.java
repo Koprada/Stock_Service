@@ -1,4 +1,4 @@
-package com.emazon.stock_service.Application.dto;
+package com.emazon.stock_service.Application.dto.brandDto;
 
 import lombok.Data;
 

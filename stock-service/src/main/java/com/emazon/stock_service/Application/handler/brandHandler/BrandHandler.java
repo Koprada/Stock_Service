@@ -1,7 +1,7 @@
-package com.emazon.stock_service.Application.handler;
+package com.emazon.stock_service.Application.handler.brandHandler;
 
-import com.emazon.stock_service.Application.dto.BrandDtoRequest;
-import com.emazon.stock_service.Application.dto.BrandDtoResponse;
+import com.emazon.stock_service.Application.dto.brandDto.BrandDtoRequest;
+import com.emazon.stock_service.Application.dto.brandDto.BrandDtoResponse;
 import com.emazon.stock_service.Application.mapper.BrandRequestMapper;
 import com.emazon.stock_service.Domain.Constants.Constants;
 import com.emazon.stock_service.Domain.api.IBrandService;

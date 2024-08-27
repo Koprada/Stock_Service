@@ -1,9 +1,8 @@
 package com.emazon.stock_service.Infrastructure.input.rest;
 
-import com.emazon.stock_service.Application.dto.BrandDtoRequest;
-import com.emazon.stock_service.Application.dto.BrandDtoResponse;
-import com.emazon.stock_service.Application.dto.CategoryDtoResponse;
-import com.emazon.stock_service.Application.handler.BrandHandler;
+import com.emazon.stock_service.Application.dto.brandDto.BrandDtoRequest;
+import com.emazon.stock_service.Application.dto.brandDto.BrandDtoResponse;
+import com.emazon.stock_service.Application.handler.brandHandler.BrandHandler;
 import com.emazon.stock_service.Domain.model.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
