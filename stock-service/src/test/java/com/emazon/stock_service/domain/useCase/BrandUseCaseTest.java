@@ -28,7 +28,7 @@ public class BrandUseCaseTest {
     void testSaveBrand() {
         Brand brand = new Brand(1L, "Samsung", "Electronics and appliances");
 
-        when(brandPersistencePort.existsByNombre(brand.getNombre())).thenReturn(false);
+        when(brandPersistencePort.existsByName(brand.getName())).thenReturn(false);
 
         brandService.saveBrand(brand);
 
@@ -39,7 +39,7 @@ public class BrandUseCaseTest {
     void testSaveBrandThrowsExceptionWhenBrandExists() {
         Brand brand = new Brand(1L, "Samsung", "Electronics and appliances");
 
-        when(brandPersistencePort.existsByNombre(brand.getNombre())).thenReturn(true);
+        when(brandPersistencePort.existsByName(brand.getName())).thenReturn(true);
 
         Exception exception = assertThrows(BrandAlreadyExistsException.class, () -> {
             brandService.saveBrand(brand);
@@ -58,7 +58,7 @@ public class BrandUseCaseTest {
         Page<Brand> result = brandService.listBrands(PageRequest.of(0, 10));
 
         assertFalse(result.isEmpty());
-        assertEquals("Samsung", result.getContent().get(0).getNombre());
+        assertEquals("Samsung", result.getContent().get(0).getName());
     }
 
     @Test

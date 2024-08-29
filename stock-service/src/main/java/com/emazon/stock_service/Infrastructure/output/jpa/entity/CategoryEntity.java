@@ -9,7 +9,7 @@ import lombok.*;
 
 @Entity
 @Data
-@Table(name = "categoria")
+@Table(name = "category")
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryEntity {
@@ -20,9 +20,9 @@ public class CategoryEntity {
 
     @NotBlank(message = "El nombre de la categoría no puede estar vacío")
     @Size(max = 50, message = "El nombre de la categoría no puede exceder los 50 caracteres")
-    private String nombre;
+    private String name;
 
     @NotBlank(message = "La descripción de la categoría no puede estar vacía")
     @Size(max = 90, message = "La descripción de la categoría no puede exceder los 90 caracteres")
-    private String descripcion;
+    private String description;
 }

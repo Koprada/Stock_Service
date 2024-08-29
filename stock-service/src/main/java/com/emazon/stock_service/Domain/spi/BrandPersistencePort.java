@@ -10,5 +10,5 @@ public interface BrandPersistencePort {
 
     Page<Brand> listBrands(Pageable pageable);
 
-    boolean existsByNombre(String nombre);
+    boolean existsByName(String name);
 }

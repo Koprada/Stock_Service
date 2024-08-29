@@ -20,19 +20,19 @@ public class CategoryUseCase implements ICategoryService {
 
     @Override
     public void saveCategory(Category category) {
-        if (category.getNombre() == null || category.getNombre().isEmpty()) {
+        if (category.getName() == null || category.getName().isEmpty()) {
             throw new InvalidCategoryException(ExceptionConstants.CATEGORY_NAME_EMPTY);
         }
-        if (category.getNombre().length() > 50) {
+        if (category.getName().length() > 50) {
             throw new InvalidCategoryException(ExceptionConstants.CATEGORY_NAME_TOO_LONG);
         }
-        if (category.getDescripcion() == null || category.getDescripcion().isEmpty()) {
+        if (category.getDescription() == null || category.getDescription().isEmpty()) {
             throw new InvalidCategoryException(ExceptionConstants.CATEGORY_DESCRIPTION_EMPTY);
         }
-        if (category.getDescripcion().length() > 90) {
+        if (category.getDescription().length() > 90) {
             throw new InvalidCategoryException(ExceptionConstants.CATEGORY_DESCRIPTION_TOO_LONG);
         }
-        if (categoryPersistencePort.existsByNombre(category.getNombre())) {
+        if (categoryPersistencePort.existsByName(category.getName())) {
             throw new CategoryAlreadyExistsException(ExceptionConstants.CATEGORY_ALREADY_EXISTS);
         }
         categoryPersistencePort.saveCategory(category);

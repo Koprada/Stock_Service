@@ -6,9 +6,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
-@Table(name = "marca")
+@Table(name = "brand")
 @NoArgsConstructor
 @AllArgsConstructor
 public class BrandEntity {
@@ -19,9 +21,9 @@ public class BrandEntity {
 
     @NotBlank(message = "El nombre de la marca no puede estar vacío")
     @Size(max = 50, message = "El nombre de la marca no puede exceder los 50 caracteres")
-    private String nombre;
+    private String name;
 
     @NotBlank(message = "La descripción de la marca no puede estar vacía")
     @Size(max = 120, message = "La descripción de la marca no puede exceder los 120 caracteres")
-    private String descripcion;
+    private String description;
 }

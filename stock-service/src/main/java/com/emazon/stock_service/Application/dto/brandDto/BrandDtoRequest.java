@@ -1,18 +1,15 @@
 package com.emazon.stock_service.Application.dto.brandDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BrandDtoRequest {
 
-    private String nombre;
-    private String descripcion;
+    private String name;
+    private String description;
 
-    public BrandDtoRequest() {
-    }
-
-    public BrandDtoRequest(String nombre, String descripcion) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-    }
 }

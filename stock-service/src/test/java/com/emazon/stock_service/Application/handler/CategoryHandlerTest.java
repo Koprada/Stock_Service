@@ -42,8 +42,8 @@ public class CategoryHandlerTest {
     public void testSaveCategory() {
         // Crear instancia de CategoryDtoRequest
         CategoryDtoRequest categoryDtoRequest = new CategoryDtoRequest();
-        categoryDtoRequest.setNombre("Electronics");
-        categoryDtoRequest.setDescripcion("Devices and gadgets");
+        categoryDtoRequest.setName("Electronics");
+        categoryDtoRequest.setDescription("Devices and gadgets");
 
         // Crear una instancia de Category
         Category category = new Category(1L, "Electronics", "Devices and gadgets");
@@ -80,7 +80,7 @@ public class CategoryHandlerTest {
         // Verificar resultados
         assertNotNull(result);
         assertEquals(1, result.getContent().size());
-        assertEquals("Electronics", result.getContent().get(0).getNombre());
+        assertEquals("Electronics", result.getContent().get(0).getName());
     }
 
 

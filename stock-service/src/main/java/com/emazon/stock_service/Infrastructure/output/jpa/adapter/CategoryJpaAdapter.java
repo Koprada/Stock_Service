@@ -19,7 +19,7 @@ public class CategoryJpaAdapter implements CategoryPersistencePort {
     @Override
     public void saveCategory(Category category) {
         try {
-            if (categoryRepository.existsByNombre(category.getNombre())) {
+            if (categoryRepository.existsByName(category.getName())) {
                 throw new IllegalArgumentException(ExceptionConstants.CATEGORY_ALREADY_EXISTS);
             }
             categoryRepository.save(categoryEntityMapper.categoryToCategoryEntity(category));
@@ -39,7 +39,7 @@ public class CategoryJpaAdapter implements CategoryPersistencePort {
     }
 
     @Override
-    public boolean existsByNombre(String nombre) {
-        return categoryRepository.existsByNombre(nombre);
+    public boolean existsByName(String name) {
+        return categoryRepository.existsByName(name);
     }
 }

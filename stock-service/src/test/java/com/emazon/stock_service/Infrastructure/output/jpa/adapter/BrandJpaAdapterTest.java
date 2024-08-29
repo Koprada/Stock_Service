@@ -69,6 +69,6 @@ public class BrandJpaAdapterTest {
         // Then
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
-        assertEquals("Samsung", result.getContent().get(0).getNombre());
+        assertEquals("Samsung", result.getContent().get(0).getName());
     }
 }

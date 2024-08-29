@@ -20,19 +20,19 @@ public class BrandUseCase implements IBrandService {
 
     @Override
     public void saveBrand(Brand brand) {
-        if (brand.getNombre() == null || brand.getNombre().isEmpty()) {
+        if (brand.getName() == null || brand.getName().isEmpty()) {
             throw new InvalidBrandException(ExceptionConstants.BRAND_NAME_EMPTY);
         }
-        if (brand.getNombre().length() > 50) {
+        if (brand.getName().length() > 50) {
             throw new InvalidBrandException(ExceptionConstants.BRAND_NAME_TOO_LONG);
         }
-        if (brand.getDescripcion() == null || brand.getDescripcion().isEmpty()) {
+        if (brand.getDescription() == null || brand.getDescription().isEmpty()) {
             throw new InvalidBrandException(ExceptionConstants.BRAND_DESCRIPTION_EMPTY);
         }
-        if (brand.getDescripcion().length() > 120) {
+        if (brand.getDescription().length() > 120) {
             throw new InvalidBrandException(ExceptionConstants.BRAND_DESCRIPTION_TOO_LONG);
         }
-        if (brandPersistencePort.existsByNombre(brand.getNombre())) {
+        if (brandPersistencePort.existsByName(brand.getName())) {
             throw new BrandAlreadyExistsException(ExceptionConstants.BRAND_ALREADY_EXISTS);
         }
         brandPersistencePort.saveBrand(brand);

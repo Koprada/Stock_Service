@@ -70,6 +70,6 @@ public class CategoryJpaAdapterTest {
         // Then
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
-        assertEquals("Electronics", result.getContent().get(0).getNombre());
+        assertEquals("Electronics", result.getContent().get(0).getName());
     }
 }

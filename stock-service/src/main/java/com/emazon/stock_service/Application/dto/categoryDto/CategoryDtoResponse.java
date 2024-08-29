@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class CategoryDtoResponse {
 
     private Long id;
-    private String nombre;
-    private String descripcion;
+    private String name;
+    private String description;
 
 }

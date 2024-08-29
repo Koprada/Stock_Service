@@ -26,7 +26,7 @@ public class CategoryUseCaseTest {
     void testSaveCategory() {
         Category category = new Category(1L, "Electronics", "Devices and gadgets");
 
-        when(categoryPersistencePort.existsByNombre(category.getNombre())).thenReturn(false);
+        when(categoryPersistencePort.existsByName(category.getName())).thenReturn(false);
 
         categoryService.saveCategory(category);
 
@@ -37,7 +37,7 @@ public class CategoryUseCaseTest {
     void testSaveCategoryThrowsExceptionWhenCategoryExists() {
         Category category = new Category(1L, "Electronics", "Devices and gadgets");
 
-        when(categoryPersistencePort.existsByNombre(category.getNombre())).thenReturn(true);
+        when(categoryPersistencePort.existsByName(category.getName())).thenReturn(true);
 
         Exception exception = assertThrows(CategoryAlreadyExistsException.class, () -> {
             categoryService.saveCategory(category);
@@ -56,7 +56,7 @@ public class CategoryUseCaseTest {
         Page<Category> result = categoryService.listCategories(PageRequest.of(0, 10));
 
         assertFalse(result.isEmpty());
-        assertEquals("Electronics", result.getContent().get(0).getNombre());
+        assertEquals("Electronics", result.getContent().get(0).getName());
     }
 
     @Test

@@ -4,13 +4,16 @@ package com.emazon.stock_service.Domain.model;
 public class Category {
 
     private Long id;
-    private String nombre;
-    private String descripcion;
+    private String name;
+    private String description;
 
-    public Category(Long id, String nombre, String descripcion) {
+    public Category() {
+    }
+
+    public Category(Long id, String name, String description) {
         this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
+        this.name = name;
+        this.description = description;
     }
 
     public Long getId() {
@@ -21,20 +24,19 @@ public class Category {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
-
 }

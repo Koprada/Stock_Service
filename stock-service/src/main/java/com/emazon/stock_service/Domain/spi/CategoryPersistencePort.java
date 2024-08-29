@@ -11,5 +11,5 @@ public interface CategoryPersistencePort {
 
     Page<Category> listCategories(Pageable pageable);
 
-    boolean existsByNombre(String nombre);
+    boolean existsByName(String name);
 }

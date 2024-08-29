@@ -19,7 +19,7 @@ public class BrandJpaAdapter implements BrandPersistencePort {
     @Override
     public void saveBrand(Brand brand) {
         try {
-            if (brandRepository.existsByNombre(brand.getNombre())) {
+            if (brandRepository.existsByName(brand.getName())) {
                 throw new IllegalArgumentException(ExceptionConstants.BRAND_ALREADY_EXISTS);
             }
             brandRepository.save(brandEntityMapper.brandToBrandEntity(brand));
@@ -39,8 +39,8 @@ public class BrandJpaAdapter implements BrandPersistencePort {
     }
 
     @Override
-    public boolean existsByNombre(String nombre) {
-        return brandRepository.existsByNombre(nombre);
+    public boolean existsByName(String name) {
+        return brandRepository.existsByName(name);
     }
 
 }

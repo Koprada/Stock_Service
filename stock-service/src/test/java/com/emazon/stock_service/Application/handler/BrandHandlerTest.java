@@ -42,8 +42,8 @@ public class BrandHandlerTest {
     public void testSaveBrand() {
         // Crear instancia de BrandDtoRequest
         BrandDtoRequest brandDtoRequest = new BrandDtoRequest();
-        brandDtoRequest.setNombre("Samsung");
-        brandDtoRequest.setDescripcion("Electronics and appliances");
+        brandDtoRequest.setName("Samsung");
+        brandDtoRequest.setDescription("Electronics and appliances");
 
         // Crear una instancia de Brand
         Brand brand = new Brand(1L, "Samsung", "Electronics and appliances");
@@ -80,6 +80,6 @@ public class BrandHandlerTest {
         // Verificar resultados
         assertNotNull(result);
         assertEquals(1, result.getContent().size());
-        assertEquals("Samsung", result.getContent().get(0).getNombre());
+        assertEquals("Samsung", result.getContent().get(0).getName());
     }
 }

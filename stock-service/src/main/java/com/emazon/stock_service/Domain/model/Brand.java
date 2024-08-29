@@ -2,29 +2,16 @@ package com.emazon.stock_service.Domain.model;
 
 public class Brand {
     private Long id;
-    private String nombre;
-    private String descripcion;
+    private String name;
+    private String description;
 
-    public Brand(Long id, String nombre, String descripcion) {
+    public Brand() {
+    }
+
+    public Brand(Long id, String description, String name) {
         this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.description = description;
+        this.name = name;
     }
 
     public Long getId() {
@@ -33,5 +20,21 @@ public class Brand {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
