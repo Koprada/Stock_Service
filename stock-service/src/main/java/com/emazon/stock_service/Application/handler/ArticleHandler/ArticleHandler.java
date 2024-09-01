@@ -3,7 +3,6 @@ package com.emazon.stock_service.Application.handler.ArticleHandler;
 import com.emazon.stock_service.Application.dto.ArticleDto.ArticleDtoRequest;
 import com.emazon.stock_service.Application.mapper.ArticleRequestMapper;
 import com.emazon.stock_service.Domain.api.IArticleService;
-import com.emazon.stock_service.Domain.api.IBrandService;
 import com.emazon.stock_service.Domain.model.Article;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

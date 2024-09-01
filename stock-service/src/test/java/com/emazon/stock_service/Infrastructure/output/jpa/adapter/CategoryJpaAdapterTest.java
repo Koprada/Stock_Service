@@ -45,7 +45,7 @@ public class CategoryJpaAdapterTest {
         CategoryEntity categoryEntity = new CategoryEntity(1L, "Electronics", "Devices and gadgets");
 
         when(categoryEntityMapper.categoryToCategoryEntity(any(Category.class))).thenReturn(categoryEntity);
-        when(categoryRepository.existsByNombre(anyString())).thenReturn(false);
+        when(categoryRepository.existsByName(anyString())).thenReturn(false);
 
         // When
         categoryJpaAdapter.saveCategory(category);

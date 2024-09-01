@@ -40,11 +40,11 @@ public class BrandJpaAdapterTest {
     @Test
     void testSaveBrand() {
         // Given
-        Brand brand = new Brand(1L, "Samsung", "Electronics and appliances");
+        Brand brand = new Brand(1L,  "Electronics and appliances","Samsung");
         BrandEntity brandEntity = new BrandEntity(1L, "Samsung", "Electronics and appliances");
 
         when(brandEntityMapper.brandToBrandEntity(any(Brand.class))).thenReturn(brandEntity);
-        when(brandRepository.existsByNombre(anyString())).thenReturn(false);
+        when(brandRepository.existsByName(anyString())).thenReturn(false);
 
         // When
         brandJpaAdapter.saveBrand(brand);
@@ -61,7 +61,7 @@ public class BrandJpaAdapterTest {
         Page<BrandEntity> page = new PageImpl<>(Collections.singletonList(brandEntity));
 
         when(brandRepository.findAll(pageable)).thenReturn(page);
-        when(brandEntityMapper.toBrand(any(BrandEntity.class))).thenReturn(new Brand(1L, "Samsung", "Electronics and appliances"));
+        when(brandEntityMapper.toBrand(any(BrandEntity.class))).thenReturn(new Brand(1L,"Electronics and appliances", "Samsung"));
 
         // When
         Page<Brand> result = brandJpaAdapter.listBrands(pageable);

@@ -50,7 +50,7 @@ public class BrandUseCaseTest {
 
     @Test
     void testListBrands() {
-        Brand brand = new Brand(1L, "Samsung", "Electronics and appliances");
+        Brand brand = new Brand(1L,"Electronics and appliances", "Samsung");
         Page<Brand> page = new PageImpl<>(Collections.singletonList(brand), PageRequest.of(0, 10), 1);
 
         when(brandPersistencePort.listBrands(any(Pageable.class))).thenReturn(page);

@@ -33,6 +33,8 @@ public class BrandHandlerTest {
     @Mock
     private BrandRequestMapper brandRequestMapper;
 
+
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -46,7 +48,7 @@ public class BrandHandlerTest {
         brandDtoRequest.setDescription("Electronics and appliances");
 
         // Crear una instancia de Brand
-        Brand brand = new Brand(1L, "Samsung", "Electronics and appliances");
+        Brand brand = new Brand(1L,"Electronics and appliances", "Samsung");
 
         // Configurar el mapper
         when(brandRequestMapper.toBrand(brandDtoRequest)).thenReturn(brand);
