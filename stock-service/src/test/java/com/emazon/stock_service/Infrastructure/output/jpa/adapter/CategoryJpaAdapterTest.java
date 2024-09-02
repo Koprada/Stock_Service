@@ -1,7 +1,6 @@
 package com.emazon.stock_service.Infrastructure.output.jpa.adapter;
 
 import com.emazon.stock_service.Domain.model.Category;
-import com.emazon.stock_service.Domain.spi.CategoryPersistencePort;
 import com.emazon.stock_service.Infrastructure.output.jpa.entity.CategoryEntity;
 import com.emazon.stock_service.Infrastructure.output.jpa.mapper.CategoryEntityMapper;
 import com.emazon.stock_service.Infrastructure.output.jpa.repository.ICategoryRepository;
@@ -22,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class CategoryJpaAdapterTest {
+ class CategoryJpaAdapterTest {
 
     @Mock
     private ICategoryRepository categoryRepository;

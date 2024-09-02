@@ -36,9 +36,7 @@ class ArticleJpaAdapterTest {
         when(articleRepository.existsByName(article.getName())).thenReturn(true);
 
         // Act & Assert
-        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> {
-            articleJpaAdapter.saveArticle(article);
-        });
+        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> articleJpaAdapter.saveArticle(article));
 
         assertTrue(exception.getMessage().contains(ExceptionConstants.ARTICLE_ALREADY_EXISTS));
         verify(articleRepository, never()).save(any(ArticleEntity.class));
@@ -52,9 +50,7 @@ class ArticleJpaAdapterTest {
         when(articleRepository.existsByName(article.getName())).thenReturn(false);
 
         // Act & Assert
-        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> {
-            articleJpaAdapter.saveArticle(article);
-        });
+        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> articleJpaAdapter.saveArticle(article));
 
         assertEquals("El artículo debe tener una marca asociada.", exception.getMessage());
         verify(articleRepository, never()).save(any(ArticleEntity.class));
@@ -67,9 +63,7 @@ class ArticleJpaAdapterTest {
         when(articleRepository.existsByName(article.getName())).thenReturn(false);
 
         // Act & Assert
-        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> {
-            articleJpaAdapter.saveArticle(article);
-        });
+        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> articleJpaAdapter.saveArticle(article));
 
         assertEquals(ExceptionConstants.ARTICLE_CATEGORY_COUNT_INVALID, exception.getMessage());
         verify(articleRepository, never()).save(any(ArticleEntity.class));

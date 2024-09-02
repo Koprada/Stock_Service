@@ -1,6 +1,5 @@
 package com.emazon.stock_service.domain.useCase;
 
-import com.emazon.stock_service.Application.mapper.ArticleRequestMapper;
 import com.emazon.stock_service.Domain.Constants.ExceptionConstants;
 import com.emazon.stock_service.Domain.exception.ArticleAlreadyExistsException;
 import com.emazon.stock_service.Domain.exception.InvalidArticleException;
@@ -21,16 +20,11 @@ class ArticleUseCaseTest {
 
     private ArticlePersistencePort articlePersistencePort;
     private ArticleUseCase articleUseCase;
-    private final ArticleRequestMapper articleRequestMapper;
-
-    ArticleUseCaseTest(ArticleRequestMapper articleRequestMapper) {
-        this.articleRequestMapper = articleRequestMapper;
-    }
 
     @BeforeEach
     void setUp() {
         articlePersistencePort = mock(ArticlePersistencePort.class);
-        articleUseCase = new ArticleUseCase(articlePersistencePort, articleRequestMapper);
+        articleUseCase = new ArticleUseCase(articlePersistencePort);
     }
 
     @Test
