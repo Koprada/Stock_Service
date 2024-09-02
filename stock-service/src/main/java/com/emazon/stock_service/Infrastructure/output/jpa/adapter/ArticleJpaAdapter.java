@@ -6,11 +6,16 @@ import com.emazon.stock_service.Domain.model.Category;
 import com.emazon.stock_service.Domain.spi.ArticlePersistencePort;
 import com.emazon.stock_service.Infrastructure.constant.ExceptionConstants;
 import com.emazon.stock_service.Infrastructure.exception.DatabaseException;
+import com.emazon.stock_service.Infrastructure.output.jpa.entity.ArticleEntity;
 import com.emazon.stock_service.Infrastructure.output.jpa.mapper.ArticleEntityMapper;
 import com.emazon.stock_service.Infrastructure.output.jpa.repository.IArticleRepository;
+import com.emazon.stock_service.Infrastructure.output.jpa.specification.ArticleSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class ArticleJpaAdapter implements ArticlePersistencePort {
@@ -48,5 +53,49 @@ public class ArticleJpaAdapter implements ArticlePersistencePort {
     @Override
     public boolean existsByName(String name) {
         return articleRepository.existsByName(name);
+    }
+
+    @Override
+    public Page<Article> listArticles(String sortBy, String sortOrder, Pageable pageable) {
+        if ("category.name".equals(sortBy) || "brand.name".equals(sortBy)) {
+            return listArticlesWithCustomSorting(sortBy, sortOrder, pageable);
+        } else {
+            try {
+                PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                        "desc".equalsIgnoreCase(sortOrder) ? Sort.by(Sort.Direction.DESC, sortBy) : Sort.by(Sort.Direction.ASC, sortBy));
+                Page<ArticleEntity> articleEntityPage = articleRepository.findAll(pageRequest);
+                return convertToArticlePage(articleEntityPage);
+            } catch (Exception e) {
+                throw new DatabaseException(ExceptionConstants.ERROR_LISTING_ARTICLES + e.getMessage(), e);
+            }
+        }
+    }
+
+    @Override
+    public Page<Article> listArticles(Pageable pageable) {
+        try {
+            Page<ArticleEntity> articleEntityPage = articleRepository.findAll(pageable);
+            return convertToArticlePage(articleEntityPage);
+        } catch (Exception e) {
+            throw new DatabaseException(ExceptionConstants.ERROR_LISTING_ARTICLES + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public Page<Article> listArticlesWithCustomSorting(String sortBy, String sortOrder, Pageable pageable) {
+        try {
+            Specification<ArticleEntity> specification = ArticleSpecification.withCustomSorting(sortBy, sortOrder);
+            Page<ArticleEntity> articlesPage = articleRepository.findAll(specification, pageable);
+            return convertToArticlePage(articlesPage);
+        } catch (Exception e) {
+            throw new DatabaseException(ExceptionConstants.ERROR_FETCHING_ARTICLES + e.getMessage(), e);
+        }
+    }
+
+    private Page<Article> convertToArticlePage(Page<ArticleEntity> articleEntityPage) {
+        List<Article> articles = articleEntityPage.getContent().stream()
+                .map(articleEntityMapper::articleEntityToArticle)
+                .collect(Collectors.toList());
+        return new PageImpl<>(articles, articleEntityPage.getPageable(), articleEntityPage.getTotalElements());
     }
 }

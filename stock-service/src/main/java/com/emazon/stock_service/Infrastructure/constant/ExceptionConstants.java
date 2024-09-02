@@ -18,4 +18,5 @@ public class ExceptionConstants {
     public static final String ERROR_LISTING_ARTICLES = "Error al listar los artículos: ";
     public static final String ARTICLE_CATEGORY_COUNT_INVALID = "Un artículo debe tener entre 1 y 3 categorías.";
     public static final String ARTICLE_CATEGORY_DUPLICATE = "Las categorías no pueden estar repetidas.";
+    public static final String ERROR_FETCHING_ARTICLES = "Error al obtener los artículos: ";
 }

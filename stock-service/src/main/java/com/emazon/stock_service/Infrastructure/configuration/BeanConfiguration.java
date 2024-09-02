@@ -1,6 +1,5 @@
 package com.emazon.stock_service.Infrastructure.configuration;
 
-
 import com.emazon.stock_service.Domain.api.IArticleService;
 import com.emazon.stock_service.Domain.api.IBrandService;
 import com.emazon.stock_service.Domain.api.ICategoryService;
@@ -19,6 +18,7 @@ import com.emazon.stock_service.Infrastructure.output.jpa.mapper.CategoryEntityM
 import com.emazon.stock_service.Infrastructure.output.jpa.repository.IArticleRepository;
 import com.emazon.stock_service.Infrastructure.output.jpa.repository.IBrandRepository;
 import com.emazon.stock_service.Infrastructure.output.jpa.repository.ICategoryRepository;
+import com.emazon.stock_service.Application.mapper.ArticleRequestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +33,7 @@ public class BeanConfiguration {
     private final BrandEntityMapper brandEntityMapper;
     private final IArticleRepository articleRepository;
     private final ArticleEntityMapper articleEntityMapper;
+    private final ArticleRequestMapper articleRequestMapper;
 
     @Bean
     public CategoryPersistencePort categoryPersistencePort() {
@@ -50,7 +51,9 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public IBrandService brandService() { return new BrandUseCase(brandPersistencePort());}
+    public IBrandService brandService() {
+        return new BrandUseCase(brandPersistencePort());
+    }
 
     @Bean
     public ArticlePersistencePort articlePersistencePort() {
@@ -58,6 +61,7 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public IArticleService articleService() {return new ArticleUseCase(articlePersistencePort());
+    public IArticleService articleService() {
+        return new ArticleUseCase(articlePersistencePort(), articleRequestMapper);
     }
 }
