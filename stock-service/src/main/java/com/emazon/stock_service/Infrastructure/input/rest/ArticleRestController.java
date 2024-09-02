@@ -1,10 +1,7 @@
 package com.emazon.stock_service.Infrastructure.input.rest;
 
 import com.emazon.stock_service.Application.dto.ArticleDto.ArticleDtoRequest;
-import com.emazon.stock_service.Application.dto.ArticleDto.ArticleDtoResponse;
-import com.emazon.stock_service.Application.dto.brandDto.BrandDtoRequest;
 import com.emazon.stock_service.Application.handler.ArticleHandler.ArticleHandler;
-import com.emazon.stock_service.Domain.model.Pagination;
 import com.emazon.stock_service.Infrastructure.output.jpa.entity.ArticleEntity;
 import com.emazon.stock_service.Infrastructure.output.jpa.repository.IArticleRepository;
 import com.emazon.stock_service.Infrastructure.output.jpa.specification.ArticleSpecification;
@@ -42,6 +39,7 @@ public class ArticleRestController {
         return ResponseEntity.ok().build();
     }
 
+
     @Operation(summary = "Listar artículos con paginación y ordenamiento")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Artículos listados exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class))),
@@ -58,9 +56,7 @@ public class ArticleRestController {
         Pageable pageable = PageRequest.of(page, size);
         Page<ArticleEntity> result = articleRepository.findAll(specification, pageable);
 
-        result.forEach(article -> article.getCategories().forEach(category -> {
-            category.setDescription(null);
-        }));
+        result.forEach(article -> article.getCategories().forEach(category -> category.setDescription(null)));
 
         return ResponseEntity.ok(result);
     }

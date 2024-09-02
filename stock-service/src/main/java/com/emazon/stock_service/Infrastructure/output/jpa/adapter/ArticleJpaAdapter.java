@@ -15,7 +15,6 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class ArticleJpaAdapter implements ArticlePersistencePort {
@@ -27,19 +26,20 @@ public class ArticleJpaAdapter implements ArticlePersistencePort {
     public void saveArticle(Article article) {
         try {
             if (articleRepository.existsByName(article.getName())) {
-                throw new IllegalArgumentException(ExceptionConstants.ERROR_SAVING_ARTICLE + ExceptionConstants.ARTICLE_ALREADY_EXISTS);
+                throw new IllegalArgumentException(ExceptionConstants.ARTICLE_ALREADY_EXISTS);
             }
             if (article.getBrandId() == null) {
-                throw new IllegalArgumentException("El artículo debe tener una marca asociada.");
+                throw new IllegalArgumentException(ExceptionConstants.ERROR_SAVING_ARTICLE );
             }
             validateCategories(article.getCategories());
             articleRepository.save(articleEntityMapper.articleToArticleEntity(article));
         } catch (IllegalArgumentException e) {
-            throw new InvalidArticleException(e.getMessage());
+            throw new InvalidArticleException(ExceptionConstants.ERROR_SAVING_ARTICLE + e.getMessage());
         } catch (Exception e) {
-            throw new DatabaseException(ExceptionConstants.ERROR_SAVING_ARTICLE + e.getMessage());
+            throw new DatabaseException(ExceptionConstants.ERROR_SAVING_ARTICLE + e.getMessage(), e);
         }
     }
+
 
     private void validateCategories(List<Category> categories) {
         if (categories == null || categories.isEmpty() || categories.size() > 3) {
@@ -53,22 +53,6 @@ public class ArticleJpaAdapter implements ArticlePersistencePort {
     @Override
     public boolean existsByName(String name) {
         return articleRepository.existsByName(name);
-    }
-
-    @Override
-    public Page<Article> listArticles(String sortBy, String sortOrder, Pageable pageable) {
-        if ("category.name".equals(sortBy) || "brand.name".equals(sortBy)) {
-            return listArticlesWithCustomSorting(sortBy, sortOrder, pageable);
-        } else {
-            try {
-                PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
-                        "desc".equalsIgnoreCase(sortOrder) ? Sort.by(Sort.Direction.DESC, sortBy) : Sort.by(Sort.Direction.ASC, sortBy));
-                Page<ArticleEntity> articleEntityPage = articleRepository.findAll(pageRequest);
-                return convertToArticlePage(articleEntityPage);
-            } catch (Exception e) {
-                throw new DatabaseException(ExceptionConstants.ERROR_LISTING_ARTICLES + e.getMessage(), e);
-            }
-        }
     }
 
     @Override
@@ -95,7 +79,7 @@ public class ArticleJpaAdapter implements ArticlePersistencePort {
     private Page<Article> convertToArticlePage(Page<ArticleEntity> articleEntityPage) {
         List<Article> articles = articleEntityPage.getContent().stream()
                 .map(articleEntityMapper::articleEntityToArticle)
-                .collect(Collectors.toList());
+                .toList();
         return new PageImpl<>(articles, articleEntityPage.getPageable(), articleEntityPage.getTotalElements());
     }
 }

@@ -10,7 +10,6 @@ public interface ArticlePersistencePort {
 
     boolean existsByName(String name);
 
-    Page<Article> listArticles(String sortBy, String sortOrder, Pageable pageable);
     Page<Article> listArticles(Pageable pageable);
     Page<Article> listArticlesWithCustomSorting(String sortBy, String sortOrder, Pageable pageable);
 }

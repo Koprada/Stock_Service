@@ -1,6 +1,5 @@
 package com.emazon.stock_service.Domain.useCase;
 
-import com.emazon.stock_service.Application.dto.ArticleDto.ArticleDtoResponse;
 import com.emazon.stock_service.Application.mapper.ArticleRequestMapper;
 import com.emazon.stock_service.Domain.Constants.ExceptionConstants;
 import com.emazon.stock_service.Domain.api.IArticleService;
@@ -12,9 +11,7 @@ import com.emazon.stock_service.Domain.model.Category;
 import com.emazon.stock_service.Domain.model.Pagination;
 import com.emazon.stock_service.Domain.spi.ArticlePersistencePort;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Set;
@@ -23,12 +20,11 @@ import java.util.stream.Collectors;
 public class ArticleUseCase implements IArticleService {
 
     private final ArticlePersistencePort articlePersistencePort;
-    private final ArticleRequestMapper articleRequestMapper;
 
-    public ArticleUseCase(ArticlePersistencePort articlePersistencePort, ArticleRequestMapper articleRequestMapper) {
+    public ArticleUseCase(ArticlePersistencePort articlePersistencePort) {
         this.articlePersistencePort = articlePersistencePort;
-        this.articleRequestMapper = articleRequestMapper;
     }
+
 
     @Override
     public void saveArticle(Article article) {
@@ -79,9 +75,10 @@ public class ArticleUseCase implements IArticleService {
                     articlePage.isLast()
             );
         } catch (Exception e) {
-            throw new RuntimeException(ExceptionConstants.ARTICLE_NOT_FOUND + e.getMessage(), e);
+            throw new ArticleNotFoundException(ExceptionConstants.ARTICLE_NOT_FOUND + e.getMessage());
         }
     }
+
 
     @Override
     public Pagination<Article> listArticles(String sortBy, String sortOrder, Pageable pageable) {
@@ -96,7 +93,7 @@ public class ArticleUseCase implements IArticleService {
                     articlePage.isLast()
             );
         } catch (Exception e) {
-            throw new RuntimeException(ExceptionConstants.ARTICLE_NOT_FOUND + e.getMessage(), e);
+            throw new ArticleNotFoundException(ExceptionConstants.ARTICLE_NOT_FOUND + e.getMessage());
         }
     }
 }

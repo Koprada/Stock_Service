@@ -1,5 +1,6 @@
 package com.emazon.stock_service.domain.useCase;
 
+import com.emazon.stock_service.Application.mapper.ArticleRequestMapper;
 import com.emazon.stock_service.Domain.Constants.ExceptionConstants;
 import com.emazon.stock_service.Domain.exception.ArticleAlreadyExistsException;
 import com.emazon.stock_service.Domain.exception.InvalidArticleException;
@@ -20,11 +21,16 @@ class ArticleUseCaseTest {
 
     private ArticlePersistencePort articlePersistencePort;
     private ArticleUseCase articleUseCase;
+    private final ArticleRequestMapper articleRequestMapper;
+
+    ArticleUseCaseTest(ArticleRequestMapper articleRequestMapper) {
+        this.articleRequestMapper = articleRequestMapper;
+    }
 
     @BeforeEach
     void setUp() {
         articlePersistencePort = mock(ArticlePersistencePort.class);
-        articleUseCase = new ArticleUseCase(articlePersistencePort);
+        articleUseCase = new ArticleUseCase(articlePersistencePort, articleRequestMapper);
     }
 
     @Test
@@ -46,9 +52,7 @@ class ArticleUseCaseTest {
         Article article = new Article(1L, "", "High-end smartphone", 10, 999.99, 1L, createValidCategories());
 
         // Act & Assert
-        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> {
-            articleUseCase.saveArticle(article);
-        });
+        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> articleUseCase.saveArticle(article));
 
         assertEquals(ExceptionConstants.ARTICLE_NAME_EMPTY, exception.getMessage());
         verify(articlePersistencePort, never()).saveArticle(article);
@@ -60,9 +64,7 @@ class ArticleUseCaseTest {
         Article article = new Article(1L, "Smartphone", "High-end smartphone", 10, -999.99, 1L, createValidCategories());
 
         // Act & Assert
-        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> {
-            articleUseCase.saveArticle(article);
-        });
+        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> articleUseCase.saveArticle(article));
 
         assertEquals(ExceptionConstants.ARTICLE_PRICE_INVALID, exception.getMessage());
         verify(articlePersistencePort, never()).saveArticle(article);
@@ -75,9 +77,7 @@ class ArticleUseCaseTest {
         when(articlePersistencePort.existsByName(article.getName())).thenReturn(true);
 
         // Act & Assert
-        ArticleAlreadyExistsException exception = assertThrows(ArticleAlreadyExistsException.class, () -> {
-            articleUseCase.saveArticle(article);
-        });
+        ArticleAlreadyExistsException exception = assertThrows(ArticleAlreadyExistsException.class, () -> articleUseCase.saveArticle(article));
 
         assertEquals(ExceptionConstants.ARTICLE_ALREADY_EXISTS, exception.getMessage());
         verify(articlePersistencePort, never()).saveArticle(article);
@@ -89,9 +89,7 @@ class ArticleUseCaseTest {
         Article article = new Article(1L, "Smartphone", "High-end smartphone", 10, 999.99, 1L, createTooManyCategories());
 
         // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            articleUseCase.saveArticle(article);
-        });
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> articleUseCase.saveArticle(article));
 
         assertEquals(ExceptionConstants.ARTICLE_CATEGORY_COUNT_INVALID, exception.getMessage());
         verify(articlePersistencePort, never()).saveArticle(article);

@@ -1,6 +1,5 @@
 package com.emazon.stock_service.Infrastructure.output.jpa.mapper;
 
-import com.emazon.stock_service.Application.dto.ArticleDto.ArticleDtoResponse;
 import com.emazon.stock_service.Domain.model.Article;
 import com.emazon.stock_service.Infrastructure.output.jpa.entity.ArticleEntity;
 import org.mapstruct.Mapper;
@@ -20,7 +19,4 @@ public interface ArticleEntityMapper {
     @Mapping(source = "categories", target = "categories")
     Article articleEntityToArticle(ArticleEntity articleEntity);
 
-    @Mapping(source = "brand.id", target = "brandId")
-    @Mapping(source = "categories", target = "categories")
-    ArticleDtoResponse articleEntityToArticleDtoResponse(ArticleEntity articleEntity);
 }

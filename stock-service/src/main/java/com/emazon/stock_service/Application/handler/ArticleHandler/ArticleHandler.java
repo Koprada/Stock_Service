@@ -7,14 +7,10 @@ import com.emazon.stock_service.Domain.api.IArticleService;
 import com.emazon.stock_service.Domain.model.Article;
 import com.emazon.stock_service.Domain.model.Pagination;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +30,7 @@ public class ArticleHandler implements IArticleHandler {
         Pagination<Article> articlesPage = articleService.listArticles(sortBy, sortOrder, pageable);
         List<ArticleDtoResponse> articleDtoResponses = articlesPage.getContent().stream()
                 .map(articleRequestMapper::toArticleDtoResponse)
-                .collect(Collectors.toList());
+                .toList();
 
         return new Pagination<>(
                 articleDtoResponses,
@@ -45,13 +41,14 @@ public class ArticleHandler implements IArticleHandler {
                 articlesPage.isLast()
         );
     }
+
 
     @Override
     public Pagination<ArticleDtoResponse> listArticles(Pageable pageable) {
         Pagination<Article> articlesPage = articleService.listArticles(pageable);
         List<ArticleDtoResponse> articleDtoResponses = articlesPage.getContent().stream()
                 .map(articleRequestMapper::toArticleDtoResponse)
-                .collect(Collectors.toList());
+                .toList();
 
         return new Pagination<>(
                 articleDtoResponses,
@@ -62,4 +59,5 @@ public class ArticleHandler implements IArticleHandler {
                 articlesPage.isLast()
         );
     }
+
 }
