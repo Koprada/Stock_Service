@@ -33,23 +33,19 @@ class ArticleUseCaseTest {
 
     @Test
     void saveArticle_ShouldSaveSuccessfully_WhenArticleIsValid() {
-        // Arrange
         Article article = new Article(1L, "Smartphone", "High-end smartphone", 10, 999.99, 1L, createValidCategories());
+
         when(articlePersistencePort.existsByName(article.getName())).thenReturn(false);
 
-        // Act
         articleUseCase.saveArticle(article);
-
-        // Assert
         verify(articlePersistencePort, times(1)).saveArticle(article);
     }
 
     @Test
     void saveArticle_ShouldThrowInvalidArticleException_WhenNameIsEmpty() {
-        // Arrange
+
         Article article = new Article(1L, "", "High-end smartphone", 10, 999.99, 1L, createValidCategories());
 
-        // Act & Assert
         InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> articleUseCase.saveArticle(article));
 
         assertEquals(ExceptionConstants.ARTICLE_NAME_EMPTY, exception.getMessage());
@@ -58,10 +54,9 @@ class ArticleUseCaseTest {
 
     @Test
     void saveArticle_ShouldThrowInvalidArticleException_WhenPriceIsInvalid() {
-        // Arrange
+
         Article article = new Article(1L, "Smartphone", "High-end smartphone", 10, -999.99, 1L, createValidCategories());
 
-        // Act & Assert
         InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> articleUseCase.saveArticle(article));
 
         assertEquals(ExceptionConstants.ARTICLE_PRICE_INVALID, exception.getMessage());
@@ -70,11 +65,10 @@ class ArticleUseCaseTest {
 
     @Test
     void saveArticle_ShouldThrowArticleAlreadyExistsException_WhenArticleAlreadyExists() {
-        // Arrange
+
         Article article = new Article(1L, "Smartphone", "High-end smartphone", 10, 999.99, 1L, createValidCategories());
         when(articlePersistencePort.existsByName(article.getName())).thenReturn(true);
 
-        // Act & Assert
         ArticleAlreadyExistsException exception = assertThrows(ArticleAlreadyExistsException.class, () -> articleUseCase.saveArticle(article));
 
         assertEquals(ExceptionConstants.ARTICLE_ALREADY_EXISTS, exception.getMessage());
@@ -83,10 +77,10 @@ class ArticleUseCaseTest {
 
     @Test
     void saveArticle_ShouldThrowIllegalArgumentException_WhenCategoryCountIsInvalid() {
-        // Arrange
+
         Article article = new Article(1L, "Smartphone", "High-end smartphone", 10, 999.99, 1L, createTooManyCategories());
 
-        // Act & Assert
+
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> articleUseCase.saveArticle(article));
 
         assertEquals(ExceptionConstants.ARTICLE_CATEGORY_COUNT_INVALID, exception.getMessage());

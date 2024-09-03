@@ -37,28 +37,27 @@ public class ArticleUseCase implements IArticleService {
         if (article.getAmount() < 0) {
             throw new InvalidArticleException(ExceptionConstants.ARTICLE_QUANTITY_INVALID);
         }
+        if (article.getBrandId() == null) {
+            throw new InvalidArticleException(ExceptionConstants.ARTICLE_BRAND_INVALID);
+        }
 
-        // Validación de categorías
         validateCategory(article.getCategories());
 
-        // Verificación de existencia
         if (articlePersistencePort.existsByName(article.getName())) {
             throw new ArticleAlreadyExistsException(ExceptionConstants.ARTICLE_ALREADY_EXISTS);
         }
 
-        // Guardar artículo
         articlePersistencePort.saveArticle(article);
     }
 
     private void validateCategory(List<Category> categories) {
+        //añadir constantes
         if (categories == null || categories.isEmpty() || categories.size() > 3) {
             throw new IllegalArgumentException(ExceptionConstants.ARTICLE_CATEGORY_COUNT_INVALID);
         }
-
         Set<Long> categoryIds = categories.stream()
                 .map(Category::getId)
                 .collect(Collectors.toSet());
-
         if (categoryIds.size() != categories.size()) {
             throw new IllegalArgumentException(ExceptionConstants.ARTICLE_CATEGORY_DUPLICATE);
         }

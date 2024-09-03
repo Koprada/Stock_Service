@@ -35,6 +35,7 @@ public class ArticleJpaAdapter implements ArticlePersistencePort {
             }
             validateCategories(article.getCategories());
             articleRepository.save(articleEntityMapper.articleToArticleEntity(article));
+
         } catch (IllegalArgumentException e) {
             throw new InvalidArticleException(ExceptionConstants.ERROR_SAVING_ARTICLE + e.getMessage());
         } catch (Exception e) {

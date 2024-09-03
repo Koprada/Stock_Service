@@ -27,5 +27,5 @@ public class ExceptionConstants {
     public static final String ARTICLE_QUANTITY_INVALID = "La cantidad del artículo debe ser un número positivo";
     public static final String ARTICLE_ALREADY_EXISTS = "El artículo ya existe";
     public static final String ARTICLE_NOT_FOUND = "No se encontraron artículos";
-
+    public static final String ARTICLE_BRAND_INVALID = "El artículo debe tener una marca asociada";
 }
