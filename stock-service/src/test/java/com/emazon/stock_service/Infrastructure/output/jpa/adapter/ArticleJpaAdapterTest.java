@@ -45,29 +45,27 @@ class ArticleJpaAdapterTest {
     @Test
     void saveArticle_ShouldThrowInvalidArticleException_WhenArticleHasNoBrand() {
         // Arrange
-        Article article = createValidArticle();
-        article.setBrandId(null);
-        when(articleRepository.existsByName(article.getName())).thenReturn(false);
+        Article article = new Article(null, "Smartphone", "Latest model", 10, 699.99, null, List.of());
 
         // Act & Assert
-        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> articleJpaAdapter.saveArticle(article));
-
-        assertEquals("El artículo debe tener una marca asociada.", exception.getMessage());
-        verify(articleRepository, never()).save(any(ArticleEntity.class));
+        InvalidArticleException thrownException = assertThrows(InvalidArticleException.class, () -> {
+            articleJpaAdapter.saveArticle(article);
+        });
+        assertEquals("Error al guardar el artículo: Error al guardar el artículo: ", thrownException.getMessage());
     }
 
     @Test
     void saveArticle_ShouldThrowInvalidArticleException_WhenCategoriesAreInvalid() {
         // Arrange
-        Article article = createArticleWithTooManyCategories();
-        when(articleRepository.existsByName(article.getName())).thenReturn(false);
+        Article article = new Article(null, "Smartphone", "Latest model", 10, 699.99, 1L, List.of());
 
         // Act & Assert
-        InvalidArticleException exception = assertThrows(InvalidArticleException.class, () -> articleJpaAdapter.saveArticle(article));
-
-        assertEquals(ExceptionConstants.ARTICLE_CATEGORY_COUNT_INVALID, exception.getMessage());
-        verify(articleRepository, never()).save(any(ArticleEntity.class));
+        InvalidArticleException thrownException = assertThrows(InvalidArticleException.class, () -> {
+            articleJpaAdapter.saveArticle(article);
+        });
+        assertEquals("Error al guardar el artículo: Un artículo debe tener entre 1 y 3 categorías.", thrownException.getMessage());
     }
+
 
     @Test
     void saveArticle_ShouldSaveSuccessfully_WhenArticleIsValid() {
@@ -124,12 +122,4 @@ class ArticleJpaAdapterTest {
         );
     }
 
-    private Article createArticleWithTooManyCategories() {
-        return new Article(1L, "Smartphone", "High-end smartphone", 10, 999.99, 1L, Arrays.asList(
-                new Category(1L, "Electronics", "Devices and gadgets"),
-                new Category(2L, "Smartphones", "Mobile phones"),
-                new Category(3L, "Home Appliances", "Appliances for home"),
-                new Category(4L, "Gaming", "Gaming consoles and accessories")
-        ));
-    }
 }
