@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -67,6 +68,10 @@ public class ArticleJpaAdapter implements ArticlePersistencePort {
 
     @Override
     public Pagination<Article> listArticlesWithCustomSorting(String sortBy, String sortOrder, Pageable pageable) {
+        return getArticlePagination(sortBy, sortOrder, pageable);
+    }
+
+    private Pagination<Article> getArticlePagination(String sortBy, String sortOrder, Pageable pageable) {
         try {
             Specification<ArticleEntity> specification = ArticleSpecification.withCustomSorting(sortBy, sortOrder);
             Page<ArticleEntity> articlesPage = articleRepository.findAll(specification, pageable);
@@ -81,11 +86,14 @@ public class ArticleJpaAdapter implements ArticlePersistencePort {
         try {
             Specification<ArticleEntity> specification = ArticleSpecification.withCategoryNameSorting(sortOrder);
             Page<ArticleEntity> articleEntityPage = articleRepository.findAll(specification, pageable);
+
             return convertToPagination(articleEntityPage);
         } catch (Exception e) {
-            throw new DatabaseException(ExceptionConstants.ERROR_FETCHING_ARTICLES + e.getMessage(), e);
+            throw new DatabaseException("Error al obtener los artículos: " + e.getMessage(), e);
         }
     }
+
+
 
     @Override
     public Pagination<Article> listArticlesByCategoryName(String categoryName, Pageable pageable) {
@@ -111,16 +119,21 @@ public class ArticleJpaAdapter implements ArticlePersistencePort {
 
     @Override
     public Pagination<Article> listArticlesSortedByArticleField(String sortBy, String sortOrder, Pageable pageable) {
-        try {
-            Specification<ArticleEntity> specification = ArticleSpecification.withCustomSorting(sortBy, sortOrder);
-            Page<ArticleEntity> articleEntityPage = articleRepository.findAll(specification, pageable);
-            return convertToPagination(articleEntityPage);
-        } catch (Exception e) {
-            throw new DatabaseException(ExceptionConstants.ERROR_FETCHING_ARTICLES + e.getMessage(), e);
-        }
+        return getArticlePagination(sortBy, sortOrder, pageable);
     }
 
     private Pagination<Article> convertToPagination(Page<ArticleEntity> articleEntityPage) {
+        if (articleEntityPage == null) {
+            return new Pagination<>(
+                    Collections.emptyList(),
+                    0, // página
+                    0, // tamaño
+                    0, // total de elementos
+                    0, // total de páginas
+                    true // es la última página
+            );
+        }
+
         List<Article> articles = articleEntityPage.getContent().stream()
                 .map(articleEntityMapper::articleEntityToArticle)
                 .toList();
@@ -133,4 +146,5 @@ public class ArticleJpaAdapter implements ArticlePersistencePort {
                 articleEntityPage.isLast()
         );
     }
+
 }

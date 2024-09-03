@@ -1,6 +1,7 @@
 package com.emazon.stock_service.Domain.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Pagination<T> {
     private List<T> content;
@@ -65,5 +66,24 @@ public class Pagination<T> {
 
     public void setLast(boolean last) {
         this.last = last;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pagination<?> that = (Pagination<?>) o;
+        return page == that.page &&
+                size == that.size &&
+                totalElements == that.totalElements &&
+                totalPages == that.totalPages &&
+                last == that.last &&
+                Objects.equals(content, that.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(content, page, size, totalElements, totalPages, last);
     }
 }
