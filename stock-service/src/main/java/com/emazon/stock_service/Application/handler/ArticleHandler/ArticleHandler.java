@@ -2,6 +2,8 @@ package com.emazon.stock_service.Application.handler.ArticleHandler;
 
 import com.emazon.stock_service.Application.dto.ArticleDto.ArticleDtoRequest;
 import com.emazon.stock_service.Application.dto.ArticleDto.ArticleDtoResponse;
+import com.emazon.stock_service.Application.dto.categoryDto.CategoryDtoResponse;
+import com.emazon.stock_service.Application.handler.categoryHandler.CategoryHandler;
 import com.emazon.stock_service.Application.mapper.ArticleRequestMapper;
 import com.emazon.stock_service.Domain.api.IArticleService;
 import com.emazon.stock_service.Domain.model.Article;
@@ -18,6 +20,7 @@ public class ArticleHandler implements IArticleHandler {
 
     private final IArticleService articleService;
     private final ArticleRequestMapper articleRequestMapper;
+    private final CategoryHandler categoryHandler;
 
     @Override
     public void saveArticle(ArticleDtoRequest articleDtoRequest) {
@@ -27,7 +30,16 @@ public class ArticleHandler implements IArticleHandler {
 
     @Override
     public Pagination<ArticleDtoResponse> listArticles(String sortBy, String sortOrder, Pageable pageable) {
-        Pagination<Article> articlesPage = articleService.listArticles(sortBy, sortOrder, pageable);
+        Pagination<Article> articlesPage;
+
+        if ("category.name".equalsIgnoreCase(sortBy)) {
+            articlesPage = articleService.listArticlesSortedByCategoryName(sortOrder, pageable);
+        } else if ("brand.name".equalsIgnoreCase(sortBy)) {
+            articlesPage = articleService.listArticlesSortedByBrandName(sortOrder, pageable);
+        } else {
+            articlesPage = articleService.listArticlesSortedByArticleField(sortBy, sortOrder, pageable);
+        }
+
         List<ArticleDtoResponse> articleDtoResponses = articlesPage.getContent().stream()
                 .map(articleRequestMapper::toArticleDtoResponse)
                 .toList();
@@ -41,7 +53,6 @@ public class ArticleHandler implements IArticleHandler {
                 articlesPage.isLast()
         );
     }
-
 
     @Override
     public Pagination<ArticleDtoResponse> listArticles(Pageable pageable) {
@@ -59,5 +70,4 @@ public class ArticleHandler implements IArticleHandler {
                 articlesPage.isLast()
         );
     }
-
 }

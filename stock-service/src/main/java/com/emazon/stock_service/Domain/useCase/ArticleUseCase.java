@@ -1,6 +1,5 @@
 package com.emazon.stock_service.Domain.useCase;
 
-import com.emazon.stock_service.Application.mapper.ArticleRequestMapper;
 import com.emazon.stock_service.Domain.Constants.ExceptionConstants;
 import com.emazon.stock_service.Domain.api.IArticleService;
 import com.emazon.stock_service.Domain.exception.ArticleAlreadyExistsException;
@@ -10,7 +9,6 @@ import com.emazon.stock_service.Domain.model.Article;
 import com.emazon.stock_service.Domain.model.Category;
 import com.emazon.stock_service.Domain.model.Pagination;
 import com.emazon.stock_service.Domain.spi.ArticlePersistencePort;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -24,7 +22,6 @@ public class ArticleUseCase implements IArticleService {
     public ArticleUseCase(ArticlePersistencePort articlePersistencePort) {
         this.articlePersistencePort = articlePersistencePort;
     }
-
 
     @Override
     public void saveArticle(Article article) {
@@ -40,10 +37,16 @@ public class ArticleUseCase implements IArticleService {
         if (article.getAmount() < 0) {
             throw new InvalidArticleException(ExceptionConstants.ARTICLE_QUANTITY_INVALID);
         }
+
+        // Validación de categorías
         validateCategory(article.getCategories());
+
+        // Verificación de existencia
         if (articlePersistencePort.existsByName(article.getName())) {
             throw new ArticleAlreadyExistsException(ExceptionConstants.ARTICLE_ALREADY_EXISTS);
         }
+
+        // Guardar artículo
         articlePersistencePort.saveArticle(article);
     }
 
@@ -61,14 +64,13 @@ public class ArticleUseCase implements IArticleService {
         }
     }
 
-
     @Override
     public Pagination<Article> listArticles(Pageable pageable) {
         try {
-            Page<Article> articlePage = articlePersistencePort.listArticles(pageable);
+            Pagination<Article> articlePage = articlePersistencePort.listArticles(pageable);
             return new Pagination<>(
                     articlePage.getContent(),
-                    articlePage.getNumber(),
+                    articlePage.getPage(),
                     articlePage.getSize(),
                     articlePage.getTotalElements(),
                     articlePage.getTotalPages(),
@@ -79,14 +81,81 @@ public class ArticleUseCase implements IArticleService {
         }
     }
 
-
     @Override
-    public Pagination<Article> listArticles(String sortBy, String sortOrder, Pageable pageable) {
+    public Pagination<Article> listArticlesWithCustomSorting(String sortBy, String sortOrder, Pageable pageable) {
         try {
-            Page<Article> articlePage = articlePersistencePort.listArticlesWithCustomSorting(sortBy, sortOrder, pageable);
+            Pagination<Article> articlePage = articlePersistencePort.listArticlesWithCustomSorting(sortBy, sortOrder, pageable);
             return new Pagination<>(
                     articlePage.getContent(),
-                    articlePage.getNumber(),
+                    articlePage.getPage(),
+                    articlePage.getSize(),
+                    articlePage.getTotalElements(),
+                    articlePage.getTotalPages(),
+                    articlePage.isLast()
+            );
+        } catch (Exception e) {
+            throw new ArticleNotFoundException(ExceptionConstants.ARTICLE_NOT_FOUND + e.getMessage());
+        }
+    }
+
+    @Override
+    public Pagination<Article> listArticlesSortedByCategoryName(String sortOrder, Pageable pageable) {
+        try {
+            Pagination<Article> articlePage = articlePersistencePort.listArticlesSortedByCategoryName(sortOrder, pageable);
+            return new Pagination<>(
+                    articlePage.getContent(),
+                    articlePage.getPage(),
+                    articlePage.getSize(),
+                    articlePage.getTotalElements(),
+                    articlePage.getTotalPages(),
+                    articlePage.isLast()
+            );
+        } catch (Exception e) {
+            throw new ArticleNotFoundException(ExceptionConstants.ARTICLE_NOT_FOUND + e.getMessage());
+        }
+    }
+
+    @Override
+    public Pagination<Article> listArticlesByCategoryName(String categoryName, Pageable pageable) {
+        try {
+            Pagination<Article> articlePage = articlePersistencePort.listArticlesByCategoryName(categoryName, pageable);
+            return new Pagination<>(
+                    articlePage.getContent(),
+                    articlePage.getPage(),
+                    articlePage.getSize(),
+                    articlePage.getTotalElements(),
+                    articlePage.getTotalPages(),
+                    articlePage.isLast()
+            );
+        } catch (Exception e) {
+            throw new ArticleNotFoundException(ExceptionConstants.ARTICLE_NOT_FOUND + e.getMessage());
+        }
+    }
+
+    @Override
+    public Pagination<Article> listArticlesSortedByBrandName(String sortOrder, Pageable pageable) {
+        try {
+            Pagination<Article> articlePage = articlePersistencePort.listArticlesSortedByBrandName(sortOrder, pageable);
+            return new Pagination<>(
+                    articlePage.getContent(),
+                    articlePage.getPage(),
+                    articlePage.getSize(),
+                    articlePage.getTotalElements(),
+                    articlePage.getTotalPages(),
+                    articlePage.isLast()
+            );
+        } catch (Exception e) {
+            throw new ArticleNotFoundException(ExceptionConstants.ARTICLE_NOT_FOUND + e.getMessage());
+        }
+    }
+
+    @Override
+    public Pagination<Article> listArticlesSortedByArticleField(String sortBy, String sortOrder, Pageable pageable) {
+        try {
+            Pagination<Article> articlePage = articlePersistencePort.listArticlesSortedByArticleField(sortBy, sortOrder, pageable);
+            return new Pagination<>(
+                    articlePage.getContent(),
+                    articlePage.getPage(),
                     articlePage.getSize(),
                     articlePage.getTotalElements(),
                     articlePage.getTotalPages(),

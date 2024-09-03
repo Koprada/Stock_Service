@@ -29,6 +29,8 @@ public class BrandHandler implements IBrandHandler {
         Brand brand = brandRequestMapper.toBrand(brandDtoRequest);
         brandService.saveBrand(brand);
     }
+
+
     @Override
     public Pagination<BrandDtoResponse> listBrands(String sortOrder, int page, int size) {
         Pageable pageable = PageRequest.of(page, size,

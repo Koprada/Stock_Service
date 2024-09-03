@@ -10,5 +10,13 @@ public interface IArticleService {
 
     Pagination<Article> listArticles(Pageable pageable);
 
-    Pagination<Article> listArticles(String sortBy, String sortOrder, Pageable pageable);
+    Pagination<Article> listArticlesWithCustomSorting(String sortBy, String sortOrder, Pageable pageable);
+
+    Pagination<Article> listArticlesSortedByCategoryName(String sortOrder, Pageable pageable);
+
+    Pagination<Article> listArticlesByCategoryName(String categoryName, Pageable pageable);
+
+    Pagination<Article> listArticlesSortedByBrandName(String sortOrder, Pageable pageable);
+
+    Pagination<Article> listArticlesSortedByArticleField(String sortBy, String sortOrder, Pageable pageable);
 }
